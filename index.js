@@ -8,6 +8,7 @@ const dns = require('dns')
 let urlDatabase = {};
 let urlCounter = 1;
 
+
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
@@ -29,10 +30,15 @@ app.get('/api/hello', function(req, res) {
 });
 
 app.post('/api/shorturl', function(req, res) {
+
   let original_url = req.body.url;
+
+
   let parsedUrl;
   try {
     parsedUrl = new URL(original_url);
+    console.log(parsedUrl);
+    if (parsedUrl.protocol !== 'http:') {return res.json({ error: 'invalid url' })};
   } catch (err) {
     return res.json({ error: 'invalid url' });
   }
